@@ -38,14 +38,14 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { hotelId: string } }
+  { params }: { params: { roomId: string } }
 ) {
   try {
     const user = await currentUser();
-    if (!params.hotelId) {
+    if (!params.roomId) {
       return {
         status: 400,
-        body: { message: "hotelId is required" },
+        body: { message: "RoomId is required" },
       };
     }
     if (!user) {
@@ -54,12 +54,12 @@ export async function DELETE(
         body: { message: "Unauthorized" },
       };
     }
-    const hotel = await db.hotel.delete({
-      where: { id: params.hotelId },
+    const room = await db.room.delete({
+      where: { id: params.roomId },
     });
-    return NextResponse.json(hotel);
+    return NextResponse.json(room);
   } catch (error) {
-    console.log("Error at DELETE /api/hotel", error);
+    console.log("Error at DELETE /api/room", error);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }

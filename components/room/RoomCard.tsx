@@ -5,10 +5,50 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
 import Image from "next/image";
+import {
+  AirVent,
+  Bath,
+  Bed,
+  BedDouble,
+  Fence,
+  HandPlatter,
+  Home,
+  Loader2,
+  MountainSnow,
+  PackagePlus,
+  PencilIcon,
+  Settings2,
+  Ship,
+  Telescope,
+  Trash2,
+  Trees,
+  Tv,
+  User,
+  UtensilsCrossed,
+  VolumeX,
+  Wifi,
+} from "lucide-react";
+import AmenityItem from "../AmenityItem";
+import { Separator } from "../ui/separator";
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import AddRoomForm from "./AddRoomForm";
+import axios from "axios";
+import { useToast } from "../ui/use-toast";
 
 interface RoomCardProps {
   hotel?: Hotel & {
@@ -19,6 +59,53 @@ interface RoomCardProps {
 }
 
 const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [openAddRoom, setOpenAddRoom] = useState(false);
+
+  const router = useRouter();
+  const { toast } = useToast();
+
+  const pathname = usePathname();
+  const isHotelDetailsPage = pathname.includes("hotel-details");
+
+  const handleDialogOpen = () => {
+    setOpenAddRoom((prev) => !prev);
+  };
+
+  const handleRoomDelete = async (room: Room) => {
+    setIsLoading(true);
+    const imageKey = room.image.substring(room.image.lastIndexOf("/") + 1);
+
+    axios
+      .post("/api/uploadthing/delete", { imageKey })
+      .then(() => {
+        axios
+          .delete(`/api/room/${room.id}`)
+          .then(() => {
+            router.refresh();
+            toast({
+              variant: "success",
+              description: "Room deleted successfully",
+            });
+            setIsLoading(false);
+          })
+          .catch(() => {
+            setIsLoading(false);
+            toast({
+              variant: "destructive",
+              description: "Failed to delete the room",
+            });
+          });
+      })
+      .catch(() => {
+        setIsLoading(false);
+        toast({
+          variant: "destructive",
+          description: "Failed to delete the room",
+        });
+      });
+  };
+
   return (
     <Card>
       <CardHeader>
@@ -34,7 +121,161 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
             className="object-cover"
           />
         </div>
+        <div className="grid grid-cols-2 gap-4 content-start text-[11px] text-primary/70">
+          <AmenityItem>
+            <Bed className="h-4 w-4" /> {room.bedCount} Bed{"(s)"}
+          </AmenityItem>
+          <AmenityItem>
+            <User className="h-4 w-4" />
+            {room.guestCount} Guest{"(s)"}
+          </AmenityItem>
+          <AmenityItem>
+            <Bath className="h-4 w-4" />
+            {room.bathroomCount} Bath{"(s)"}
+          </AmenityItem>
+          {!!room.kingBed && (
+            <AmenityItem>
+              <BedDouble className="h-4 w-4" />
+              {room.kingBed} King Bed{"(s)"}
+            </AmenityItem>
+          )}
+          {!!room.queenBed && (
+            <AmenityItem>
+              <Bed className="h-4 w-4" />
+              {room.queenBed} Queen Bed{"(s)"}
+            </AmenityItem>
+          )}
+        </div>
+        <p className="text-[12px] font-semibold">Accessories :</p>
+        <div className="grid grid-cols-2 gap-4 content-start text-[11px] text-primary/70">
+          {room.roomService && (
+            <AmenityItem>
+              <HandPlatter className="h-4 w-4" />
+              Room Service
+            </AmenityItem>
+          )}
+          {room.TV && (
+            <AmenityItem>
+              <Tv className="h-4 w-4" />
+              TV
+            </AmenityItem>
+          )}
+          {room.balcony && (
+            <AmenityItem>
+              <Fence className="h-4 w-4" />
+              Balcony
+            </AmenityItem>
+          )}
+          {room.freeWifi && (
+            <AmenityItem>
+              <Wifi className="h-4 w-4" />
+              Free Wifi
+            </AmenityItem>
+          )}
+          {room.cityView && (
+            <AmenityItem>
+              <Telescope className="h-4 w-4" />
+              City View
+            </AmenityItem>
+          )}
+          {room.oceanView && (
+            <AmenityItem>
+              <Ship className="h-4 w-4" />
+              Ocean View
+            </AmenityItem>
+          )}
+          {room.forestView && (
+            <AmenityItem>
+              <Trees className="h-4 w-4" />
+              Forest View
+            </AmenityItem>
+          )}
+          {room.mountainView && (
+            <AmenityItem>
+              <MountainSnow className="h-4 w-4" />
+              Mountain View
+            </AmenityItem>
+          )}
+          {room.airConditioned && (
+            <AmenityItem>
+              <AirVent className="h-4 w-4" />
+              Air Conditioned
+            </AmenityItem>
+          )}
+          {room.soundProofed && (
+            <AmenityItem>
+              <VolumeX className="h-4 w-4" />
+              Sound Proofed
+            </AmenityItem>
+          )}
+        </div>
+        <Separator />
+        <div className="flex gap-4 justify-between text-xs">
+          <div>
+            Room Price: <span className="font-bold">${room.roomPrice}</span>
+            <span className="text-[11px] text-primary/70">/24hrs</span>
+          </div>
+          {!!room.breakFastPrice && (
+            <div>
+              Breakfast Price:{" "}
+              <span className="font-bold">${room.breakFastPrice}</span>
+              <span className="text-[11px] text-primary/70">/person</span>
+            </div>
+          )}
+        </div>
+        <Separator />
       </CardContent>
+      <CardFooter>
+        {isHotelDetailsPage ? (
+          <div>Hotel Details Page</div>
+        ) : (
+          <div className="flex w-full justify-between">
+            <Button
+              disabled={isLoading}
+              type="button"
+              variant="ghost"
+              onClick={() => handleRoomDelete(room)}
+            >
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4" />
+                  Deleting...
+                </>
+              ) : (
+                <>
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
+                </>
+              )}
+            </Button>
+            <Dialog open={openAddRoom} onOpenChange={setOpenAddRoom}>
+              <DialogTrigger>
+                <Button
+                  variant="outline"
+                  type="button"
+                  className="max-w-[150px]"
+                >
+                  <Settings2 className="mr-2 h-4 w-4" />
+                  Update Room
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-[900px] w-[90%]">
+                <DialogHeader className="px-2">
+                  <DialogTitle>Update Rooms</DialogTitle>
+                  <DialogDescription>
+                    Update the room details for the hotel
+                  </DialogDescription>
+                </DialogHeader>
+                <AddRoomForm
+                  hotel={hotel}
+                  room={room}
+                  handleDialogOpen={handleDialogOpen}
+                />
+              </DialogContent>
+            </Dialog>
+          </div>
+        )}
+      </CardFooter>
     </Card>
   );
 };

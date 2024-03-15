@@ -24,10 +24,10 @@ const NavBar = () => {
                 <Image
                   src={theme === "dark" ? "/dark-logo.png" : "/light-logo.png"}
                   alt="Banner"
-                  width={65}
+                  width={160}
                   height={60}
                 />
-                <div>Hotel Booking</div>
+                <div></div>
               </div>
             </a>
           </div>

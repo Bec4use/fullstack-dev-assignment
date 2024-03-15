@@ -1,7 +1,24 @@
-import React from "react";
+import { getHotels } from "@/actions/getHotels";
+import HotelList from "@/components/hotel/HotelList";
 
-const page = () => {
-  return <div>Homepage</div>;
-};
+interface HomeProps {
+  searchParams: {
+    title: string;
+    country: string;
+    state: string;
+    city: string;
+  };
+}
 
-export default page;
+export default async function Home({ searchParams }: HomeProps) {
+  const hotels = await getHotels(searchParams);
+
+  if (!hotels) {
+    return <div>There are no hotels available</div>;
+  }
+  return (
+    <div>
+      <HotelList hotels={hotels} />
+    </div>
+  );
+}

@@ -120,7 +120,7 @@ model Room {
   bathroomCount  Int     @default(0)
   kingBed        Int     @default(0)
   queenBed       Int     @default(0)
-  imgae          String
+  image          String
   breakFastPrice Int
   roomPrice      Int
   roomService    Boolean @default(false)

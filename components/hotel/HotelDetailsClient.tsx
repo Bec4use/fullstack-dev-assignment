@@ -19,6 +19,7 @@ import {
 } from "react-icons/md";
 import { RiMovie2Fill } from "react-icons/ri";
 import { SiBuymeacoffee } from "react-icons/si";
+import RoomCard from "../room/RoomCard";
 
 const HotelDetailsClient = ({
   hotel,
@@ -119,6 +120,23 @@ const HotelDetailsClient = ({
           )}
         </div>
       </div>
+      {!!hotel.rooms.length && (
+        <div>
+          <h3 className="text-lg font-semibold my-4">Hotel Rooms</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            {hotel.rooms.map((room) => {
+              return (
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  hotel={hotel}
+                  bookings={bookings}
+                />
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

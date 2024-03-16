@@ -24,7 +24,7 @@ const NavBar = () => {
                 <Image
                   src={theme === "dark" ? "/dark-logo.png" : "/light-logo.png"}
                   alt="Banner"
-                  width={160}
+                  width={165}
                   height={60}
                 />
                 <div></div>

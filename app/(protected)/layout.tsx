@@ -1,5 +1,5 @@
 import NavBar from "@/components/layout/NavBar";
-import { Navbar } from "./_components/navbar";
+import Container from "@/components/Container";
 
 interface ProtectedLayoutProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ const ProtectedLayout = ({ children }: ProtectedLayoutProps) => {
     <div className="h-full w-full flex flex-col gap-y-10">
       <NavBar />
       {/* <Navbar /> This is Menu for User and Admin settings */}
-      {children}
+      <Container>{children}</Container>
     </div>
   );
 };

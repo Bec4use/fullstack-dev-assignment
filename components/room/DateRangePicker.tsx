@@ -19,11 +19,13 @@ interface DatePickerProps {
   className?: React.HTMLAttributes<HTMLDivElement>;
   date: DateRange | undefined;
   setDate: React.Dispatch<React.SetStateAction<DateRange | undefined>>;
+  disabledDates: Date[];
 }
 export function DatePickerWithRange({
   className,
   date,
   setDate,
+  disabledDates,
 }: DatePickerProps) {
   return (
     <div className={cn("grid gap-2", className)}>
@@ -61,6 +63,7 @@ export function DatePickerWithRange({
             selected={date}
             onSelect={setDate}
             numberOfMonths={2}
+            disabled={disabledDates}
           />
         </PopoverContent>
       </Popover>

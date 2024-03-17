@@ -1,5 +1,11 @@
+import BookRoomClient from "@/components/booking/BookRoomClient";
+
 const BookRoom = () => {
-  return <div>Book Room</div>;
+  return (
+    <div className="p-8">
+      <BookRoomClient />
+    </div>
+  );
 };
 
 export default BookRoom;

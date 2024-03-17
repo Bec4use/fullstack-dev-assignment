@@ -48,8 +48,10 @@ import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { DatePickerWithRange } from "./DateRangePicker";
 import { DateRange } from "react-day-picker";
-import { differenceInCalendarDays } from "date-fns";
+import { differenceInCalendarDays, set } from "date-fns";
 import { Checkbox } from "../ui/checkbox";
+import { currentUser } from "@/lib/auth";
+import useBookRoom from "@/hook/useBookRoom";
 
 interface RoomCardProps {
   hotel?: Hotel & {
@@ -60,6 +62,8 @@ interface RoomCardProps {
 }
 
 const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
+  const { setRoomData, paymentIntentId, setClientSecret, setPaymentIntentId } =
+    useBookRoom();
   const [isLoading, setIsLoading] = useState(false);
   const [bookingIsLoading, setBookingIsLoading] = useState(false);
   const [openAddRoom, setOpenAddRoom] = useState(false);
@@ -70,7 +74,7 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
 
   const router = useRouter();
   const { toast } = useToast();
-
+  const user = currentUser();
   const pathname = usePathname();
   const isHotelDetailsPage = pathname.includes("hotel-details");
 
@@ -132,6 +136,76 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
       });
   };
 
+  const handleBookRoom = () => {
+    if (!user)
+      return toast({
+        variant: "destructive",
+        description: "You need to be logged in to book a room",
+      });
+
+    if (!hotel?.userId)
+      return toast({
+        variant: "destructive",
+        description: "Hotel owner is not found",
+      });
+
+    if (date?.from && date?.to) {
+      setBookingIsLoading(true);
+
+      const bookingRoomData = {
+        room,
+        totalPrice,
+        breakFastIncluded: includeBreakfast,
+        startDate: date.from,
+        endDate: date.to,
+      };
+
+      setRoomData(bookingRoomData);
+
+      fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          booking: {
+            hotelOwnerId: hotel.userId,
+            hotelId: hotel.id,
+            roomId: room.id,
+            startDate: date.from,
+            endDate: date.to,
+            breakFastIncluded: includeBreakfast,
+            totalPrice: totalPrice,
+          },
+          payment_intent_id: paymentIntentId,
+        }),
+      })
+        .then((res) => {
+          setBookingIsLoading(false);
+          if (res.status === 401) {
+            return router.push("/login");
+          }
+          return res.json();
+        })
+        .then((data) => {
+          setClientSecret(data.paymentIntent.client_secret);
+          setPaymentIntentId(data.paymentIntent.id);
+          router.push("/book-room");
+        })
+        .catch((error: any) => {
+          console.log("Error :", error);
+          toast({
+            variant: "destructive",
+            description: error.message,
+          });
+        });
+    } else {
+      toast({
+        variant: "destructive",
+        description: "Please select the date range to book the room",
+      });
+    }
+  };
   return (
     <Card>
       <CardHeader>
@@ -281,7 +355,7 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
               <span className="font-bold">{days} Days</span>
             </div>
             <Button
-              onClick={() => {}}
+              onClick={() => handleBookRoom()}
               disabled={bookingIsLoading}
               type="button"
             >

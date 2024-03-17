@@ -12,10 +12,10 @@ type RoomDatatype = {
 
 interface BookRoomStore {
   bookingRoomData: RoomDatatype | null;
-  paymentIntent: string | null;
+  paymentIntentId: string | null;
   clientSecret: string | undefined;
   setRoomData: (data: RoomDatatype) => void;
-  setPaymentIntent: (paymentIntent: string) => void;
+  setPaymentIntentId: (paymentIntentId: string) => void;
   setClientSecret: (clientSecret: string) => void;
   resetBookRoom: () => void;
 }
@@ -24,15 +24,15 @@ const useBookRoom = create<BookRoomStore>()(
   persist(
     (set) => ({
       bookingRoomData: null,
-      paymentIntent: null,
+      paymentIntentId: null,
       clientSecret: undefined,
       setRoomData: (data: RoomDatatype) => set({ bookingRoomData: data }),
-      setPaymentIntent: (paymentIntent: string) => set({ paymentIntent }),
+      setPaymentIntentId: (paymentIntentId: string) => set({ paymentIntentId }),
       setClientSecret: (clientSecret: string) => set({ clientSecret }),
       resetBookRoom: () => {
         set({
           bookingRoomData: null,
-          paymentIntent: null,
+          paymentIntentId: null,
           clientSecret: undefined,
         });
       },

@@ -1,36 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Hotel Booking System
 
-## Getting Started
+This project is a comprehensive hotel booking system designed to streamline the process of online room booking. It provides a user-friendly interface where customers can view detailed information about available rooms, including room type, price, and amenities. 
 
-First, run the development server:
+The system allows users to select their preferred check-in and check-out dates using an interactive calendar. It also offers an option to include breakfast with the booking. The total price, including any additional services, is calculated in real-time as the user makes their selections.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+One of the key features of this system is its integration with Stripe, a leading online payment processing platform. This ensures that all transactions are secure and reliable. Users can make payments directly within the application, providing a seamless booking experience.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application is built using Next.js, a popular React framework, and TypeScript, a statically typed superset of JavaScript that adds reliability and maintainability to the codebase. The backend is powered by a RESTful API, ensuring efficient communication between the client and server.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This hotel booking system is perfect for hotel owners looking to digitize their booking process and enhance their customer service. It's also ideal for customers seeking a convenient and reliable platform to book their next hotel stay.

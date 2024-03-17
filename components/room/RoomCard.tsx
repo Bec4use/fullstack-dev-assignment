@@ -102,7 +102,7 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
   const disabledDates = useMemo(() => {
     let dates: Date[] = [];
     const roomBookings = bookings.filter(
-      (booking) => booking.roomId === room.id
+      (booking) => booking.roomId === room.id && booking.paymentStatus
     );
 
     roomBookings.forEach((booking) => {

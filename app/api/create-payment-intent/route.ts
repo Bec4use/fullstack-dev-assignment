@@ -42,25 +42,43 @@ export async function POST(req: Request) {
     const current_intent =
       await stripe.paymentIntents.retrieve(payment_intent_id);
     if (current_intent) {
-      const updated_intent = await stripe.paymentIntents.update(
-        payment_intent_id,
-        {
+      if (current_intent.status === "succeeded") {
+        // The PaymentIntent has already been paid, so create a new PaymentIntent
+        const newPaymentIntent = await stripe.paymentIntents.create({
           amount: booking.totalPrice * 100,
+          currency: bookingData.currency,
+          automatic_payment_methods: { enabled: true },
+        });
+
+        bookingData.paymentIntentId = newPaymentIntent.id;
+
+        await db.booking.create({
+          data: bookingData,
+        });
+
+        return NextResponse.json({ paymentIntent: newPaymentIntent });
+      } else {
+        // The PaymentIntent hasn't been paid yet, so update its amount
+        const updated_intent = await stripe.paymentIntents.update(
+          payment_intent_id,
+          {
+            amount: booking.totalPrice * 100,
+          }
+        );
+
+        const res = await db.booking.update({
+          where: {
+            paymentIntentId: payment_intent_id,
+            userId: user.id,
+          },
+          data: bookingData,
+        });
+
+        if (!res) {
+          return NextResponse.error();
         }
-      );
-
-      const res = await db.booking.update({
-        where: {
-          paymentIntentId: payment_intent_id,
-          userId: user.id,
-        },
-        data: bookingData,
-      });
-
-      if (!res) {
-        return NextResponse.error();
+        return NextResponse.json({ paymentIntent: updated_intent });
       }
-      return NextResponse.json({ paymentIntent: updated_intent });
     }
   } else {
     // Create a new booking

@@ -57,7 +57,7 @@ const RoomPaymentForm = ({
         .then((result) => {
           if (!result.error) {
             axios
-              .patch(`/api/booking/${result.paymentIntent.id}`)
+              .put(`/api/booking/${result.paymentIntent.id}`)
               .then((res) => {
                 toast({
                   variant: "success",
@@ -112,28 +112,46 @@ const RoomPaymentForm = ({
           layout: "tabs",
         }}
       />
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-4 p-4 rounded-lg shadow-md mt-4">
         <Separator />
-        <div className="flex flex-col gap-1">
-          <h2 className="font-semibold mb-1 text-lg">Your Booking Summary</h2>
-          <div>You will check-in on{startDate} at 5PM</div>
-          <div>You will check-out on{endDate} at 5PM</div>
+        <div className="flex flex-col gap-4">
+          <h2 className="font-semibold text-xl text-white-600">
+            Your Booking Summary
+          </h2>
+          <div className="text-sm text-gray-700">
+            You will check-in on{" "}
+            <span className="font-semibold">{startDate}</span> at 5PM
+          </div>
+          <div className="text-sm text-gray-700">
+            You will check-out on{" "}
+            <span className="font-semibold">{endDate}</span> at 5PM
+          </div>
           {bookingRoomData?.breakFastIncluded && (
-            <div>You will be serve breakfast each day at 8AM</div>
+            <div className="text-sm text-gray-700">
+              You will be served breakfast each day at 8AM
+            </div>
           )}
         </div>
         <Separator />
-        <div className="font-bold text-lg">
+        <div className="font-bold text-xl text-white-600">
           {bookingRoomData?.breakFastIncluded && (
-            <div className="mb-2">
-              Breakfast Price : ${bookingRoomData.room.breakFastPrice}
+            <div className="mb-2 text-sm text-gray-700 justify-center flex">
+              Breakfast Price :{" "}
+              <div className="font-semibold">
+                ${bookingRoomData.room.breakFastPrice}
+              </div>
             </div>
           )}
-          Total Price: ${bookingRoomData?.totalPrice}
+          <div className="flex justify-center">
+            Total Price:{" "}
+            <span className="font-semibold">
+              ${bookingRoomData?.totalPrice}
+            </span>
+          </div>
         </div>
       </div>
       {isLoading && (
-        <Alert className="flex flex-col gap-2 p-4 bg-primary/20 rounded-md">
+        <Alert className="flex flex-col gap-2 p-4 bg-primary/20 rounded-md bg-indigo-600">
           <Terminal className="h-4 w-4" />
           <AlertTitle>Payment Processing...</AlertTitle>
           <AlertDescription>
@@ -142,9 +160,11 @@ const RoomPaymentForm = ({
           </AlertDescription>
         </Alert>
       )}
-      <Button disabled={isLoading}>
-        {isLoading ? "Process Payment..." : "Pay Now"}
-      </Button>
+      <div className="flex justify-center mt-4">
+        <Button disabled={isLoading}>
+          {isLoading ? "Process Payment..." : "Confirm Payment"}
+        </Button>
+      </div>
     </form>
   );
 };

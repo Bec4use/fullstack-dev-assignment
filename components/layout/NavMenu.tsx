@@ -22,14 +22,23 @@ export function NavMenuToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push("/hotel/new")}>
-          <Plus size={15} /> <span>Add Hotel</span>
+        <DropdownMenuItem
+          onClick={() => router.push("/hotel/new")}
+          className="cursor-pointer"
+        >
+          <Plus size={15} /> <span className="ml-1">Add Hotel</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/my-hotels")}>
-          <Hotel size={15} /> <span>My Hotels</span>
+        <DropdownMenuItem
+          onClick={() => router.push("/my-hotels")}
+          className="cursor-pointer"
+        >
+          <Hotel size={15} /> <span className="ml-1"> My Hotels</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push("/my-bookings")}>
-          <BookOpenCheck size={15} /> <span>My Bookings</span>
+        <DropdownMenuItem
+          onClick={() => router.push("/my-bookings")}
+          className="cursor-pointer"
+        >
+          <BookOpenCheck size={15} /> <span className="ml-1">My Bookings</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

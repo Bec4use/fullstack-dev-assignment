@@ -11,7 +11,7 @@ export const getHotelById = async (hotelId: string) => {
       },
     });
 
-    // if (!hotel) throw new Error("Hotel not found");
+    if (!hotel) return null;
 
     return hotel;
   } catch (error: any) {

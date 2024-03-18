@@ -62,3 +62,41 @@ export async function DELETE(
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 }
+
+export async function GET(
+  req: Request,
+  { params }: { params: { Id: string } }
+) {
+  try {
+    const user = await currentUser();
+    if (!params.Id) {
+      return {
+        status: 400,
+        body: { message: "Hotel Id is required" },
+      };
+    }
+    if (!user) {
+      return {
+        status: 401,
+        body: { message: "Unauthorized" },
+      };
+    }
+
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    const bookings = await db.booking.findMany({
+      where: {
+        paymentStatus: true,
+        roomId: params.Id,
+        endDate: {
+          gt: yesterday,
+        },
+      },
+    });
+    return NextResponse.json(bookings);
+  } catch (error) {
+    console.log("Error at GET /api/booking", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+}

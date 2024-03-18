@@ -23,7 +23,7 @@ export default function Home() {
         height: "100vh",
       }}
     >
-      <div className="space-y-6 text-center p-4 rounded-lg shadow-lg bg-white bg-opacity-10 backdrop-filter backdrop-blur-md">
+      <div className="space-y-6 text-center p-4">
         <h1
           className={cn(
             "text-6xl font-semibold text-white drop-shadow-md flex items-center justify-center space-x-2",
@@ -43,12 +43,17 @@ export default function Home() {
             />
           </div>
         </h1>
-        <p className="text-white text-lg">
-          Book your next hotel stay with us and get the best experience
+        <p className="text-white text-lg max-w-[620px] font-semibold leading-relaxed  p-4 rounded-lg shadow-lg backdrop-filter backdrop-blur-md">
+          <span className="block mb-2 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+            Welcome to our hotel booking platform.
+          </span>
+          Effortlessly find and book your next stay from a wide range of hotels.
+          Enjoy detailed room information and secure online payment. Plan your
+          unforgettable stay with us.
         </p>
         <div>
           <LoginButton mode="modal" asChild>
-            <Button variant="default" size="lg">
+            <Button variant="outline" size="lg">
               Sign in
             </Button>
           </LoginButton>

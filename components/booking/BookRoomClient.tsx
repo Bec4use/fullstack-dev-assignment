@@ -6,7 +6,7 @@ import RoomCard from "../room/RoomCard";
 import { Elements } from "@stripe/react-stripe-js";
 import { IoCalendarSharp } from "react-icons/io5";
 import RoomPaymentForm from "./RoomPaymentForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import Stripe from "stripe";
 import { useRouter } from "next/navigation";
@@ -23,6 +23,10 @@ const BookRoomClient = () => {
   const { theme } = useTheme();
   const router = useRouter();
 
+  useEffect(() => {
+    setPageLoaded(true);
+  }, []);
+
   const options: StripeElementsOptions = {
     clientSecret,
     appearance: {
@@ -35,7 +39,7 @@ const BookRoomClient = () => {
     setPaymentSuccess(value);
   };
 
-  if (!paymentSuccess && (!bookingRoomData || !clientSecret))
+  if (pageLoaded && !paymentSuccess && (!bookingRoomData || !clientSecret))
     return (
       <div className="flex flex-col items-center gap-4 p-4 shadow rounded-lg backdrop-filter backdrop-blur-md">
         <div className="text-rose-500 text-lg font-semibold">

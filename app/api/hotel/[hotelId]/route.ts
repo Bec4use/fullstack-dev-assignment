@@ -1,27 +1,24 @@
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 
 export async function PUT(
   req: Request,
   { params }: { params: { hotelId: string } }
-) {
+): Promise<Response> {
   try {
     const body = await req.json();
     const user = await currentUser();
 
     if (!params.hotelId) {
-      return {
+      return new Response(JSON.stringify({ message: "hotelId is required" }), {
         status: 400,
-        body: { message: "hotelId is required" },
-      };
+      });
     }
 
     if (!user) {
-      return {
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
-        body: { message: "Unauthorized" },
-      };
+      });
     }
 
     const hotel = await db.hotel.update({
@@ -29,37 +26,35 @@ export async function PUT(
       data: { ...body },
     });
 
-    return NextResponse.json(hotel);
+    return new Response(JSON.stringify(hotel), { status: 200 });
   } catch (error) {
     console.log("Error at PATCH /api/hotel", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new Response("Internal Server Error", { status: 500 });
   }
 }
 
 export async function DELETE(
   req: Request,
   { params }: { params: { roomId: string } }
-) {
+): Promise<Response> {
   try {
     const user = await currentUser();
     if (!params.roomId) {
-      return {
+      return new Response(JSON.stringify({ message: "roomId is required" }), {
         status: 400,
-        body: { message: "roomId is required" },
-      };
+      });
     }
     if (!user) {
-      return {
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
         status: 401,
-        body: { message: "Unauthorized" },
-      };
+      });
     }
     const room = await db.room.delete({
       where: { id: params.roomId },
     });
-    return NextResponse.json(room);
+    return new Response(JSON.stringify(room), { status: 200 });
   } catch (error) {
     console.log("Error at DELETE /api/room", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new Response("Internal Server Error", { status: 500 });
   }
 }

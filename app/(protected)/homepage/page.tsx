@@ -1,4 +1,5 @@
 import { getHotels } from "@/actions/getHotels";
+import LocationFilter from "@/components/LocationFilter";
 import HotelList from "@/components/hotel/HotelList";
 
 interface HomeProps {
@@ -18,6 +19,7 @@ export default async function Home({ searchParams }: HomeProps) {
   }
   return (
     <div>
+      <LocationFilter />
       <HotelList hotels={hotels} />
     </div>
   );

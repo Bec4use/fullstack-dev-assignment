@@ -56,15 +56,23 @@ export async function DELETE(
 export async function GET(
   req: NextApiRequest,
   res: NextApiResponse,
-  { params }: { params: { Id: string } }
+  args?: { params: { Id: string } }
 ) {
   try {
+    if (!args) {
+      res.status(400).json({ message: "Missing parameters" });
+      return;
+    }
+
+    const { params } = args;
     const user = await currentUser();
     if (!params.Id) {
-      return res.status(400).json({ message: "Hotel Id is required" });
+      res.status(400).json({ message: "Hotel Id is required" });
+      return;
     }
     if (!user) {
-      return res.status(401).json({ message: "Unauthorized" });
+      res.status(401).json({ message: "Unauthorized" });
+      return;
     }
 
     const yesterday = new Date();
@@ -79,9 +87,9 @@ export async function GET(
         },
       },
     });
-    return res.status(200).json(bookings);
+    res.status(200).json(bookings);
   } catch (error) {
     console.log("Error at GET /api/booking", error);
-    return res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }

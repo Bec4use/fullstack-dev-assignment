@@ -18,11 +18,11 @@ export async function PUT(
         status: 401,
       });
     }
-    // Your code to update the booking goes here
+
     const updatedBooking = await db.booking.update({
       where: { paymentIntentId: params.Id },
       data: { paymentStatus: true },
-    }); // Replace this with your code to update the booking
+    });
     return new Response(JSON.stringify(updatedBooking), { status: 200 });
   } catch (error) {
     console.log("Error at PUT /api/booking", error);

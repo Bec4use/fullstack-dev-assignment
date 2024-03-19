@@ -35,12 +35,12 @@ export async function PUT(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { roomId: string } }
+  { params }: { params: { hotelId: string } }
 ): Promise<Response> {
   try {
     const user = await currentUser();
-    if (!params.roomId) {
-      return new Response(JSON.stringify({ message: "roomId is required" }), {
+    if (!params.hotelId) {
+      return new Response(JSON.stringify({ message: "hotelId is required" }), {
         status: 400,
       });
     }
@@ -49,12 +49,12 @@ export async function DELETE(
         status: 401,
       });
     }
-    const room = await db.room.delete({
-      where: { id: params.roomId },
+    const hotel = await db.hotel.delete({
+      where: { id: params.hotelId },
     });
-    return new Response(JSON.stringify(room), { status: 200 });
+    return new Response(JSON.stringify(hotel), { status: 200 });
   } catch (error) {
-    console.log("Error at DELETE /api/room", error);
+    console.log("Error at DELETE /api/hotel", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }

@@ -1,27 +1,24 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import { currentUser } from "@/lib/auth";
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 
 export async function PUT(
-  req: Request,
+  req: NextApiRequest,
+  res: NextApiResponse,
   { params }: { params: { roomId: string } }
 ) {
   try {
-    const body = await req.json();
+    const body = req.body;
     const user = await currentUser();
 
     if (!params.roomId) {
-      return {
-        status: 400,
-        body: { message: "RoomId is required" },
-      };
+      res.status(400).json({ message: "RoomId is required" });
+      return;
     }
 
     if (!user) {
-      return {
-        status: 401,
-        body: { message: "Unauthorized" },
-      };
+      res.status(401).json({ message: "Unauthorized" });
+      return;
     }
 
     const room = await db.room.update({
@@ -29,37 +26,34 @@ export async function PUT(
       data: { ...body },
     });
 
-    return NextResponse.json(room);
+    res.status(200).json(room);
   } catch (error) {
     console.log("Error at PATCH /api/room", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }
 
 export async function DELETE(
-  req: Request,
+  req: NextApiRequest,
+  res: NextApiResponse,
   { params }: { params: { roomId: string } }
 ) {
   try {
     const user = await currentUser();
     if (!params.roomId) {
-      return {
-        status: 400,
-        body: { message: "RoomId is required" },
-      };
+      res.status(400).json({ message: "RoomId is required" });
+      return;
     }
     if (!user) {
-      return {
-        status: 401,
-        body: { message: "Unauthorized" },
-      };
+      res.status(401).json({ message: "Unauthorized" });
+      return;
     }
     const room = await db.room.delete({
       where: { id: params.roomId },
     });
-    return NextResponse.json(room);
+    res.status(200).json(room);
   } catch (error) {
     console.log("Error at DELETE /api/room", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }

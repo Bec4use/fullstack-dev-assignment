@@ -1,17 +1,15 @@
 import { db } from "@/lib/db";
-import { NextResponse } from "next/server";
 import { currentUser } from "@/lib/auth";
 import { getUserById } from "@/data/user";
+import { NextApiResponse } from "next";
 
-export async function POST(req: Request) {
+export async function POST(req: Request, res: NextApiResponse) {
   try {
     const body = await req.json();
     const user = await currentUser();
     if (!user) {
-      return {
-        status: 401,
-        body: { message: "Unauthorized" },
-      };
+      res.status(401).json({ message: "Unauthorized" });
+      return;
     }
     const dbUser = await getUserById(user.id);
     const userId = dbUser?.id;
@@ -23,9 +21,9 @@ export async function POST(req: Request) {
       },
     });
 
-    return NextResponse.json(hotel);
+    res.status(200).json(hotel);
   } catch (error) {
     console.log("Error at POST /api/hotel", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 }

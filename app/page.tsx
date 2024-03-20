@@ -47,11 +47,11 @@ export default function Home() {
           <span className="block mb-2 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
             Welcome to our hotel booking platform.
           </span>
-          <div className="text-sm">
+          <span className="text-sm">
             Effortlessly find and book your next stay from a wide range of
             hotels. Enjoy detailed room information and secure online payment.
             Plan your unforgettable stay with us.
-          </div>
+          </span>
         </p>
         <div>
           <LoginButton mode="modal" asChild>

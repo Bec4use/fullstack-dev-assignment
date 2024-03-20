@@ -101,7 +101,7 @@ const LocationFilter = () => {
 
   return (
     <Container>
-      <div className="flex gap-2 md:gap-4 items-center justify-center text-sm">
+      <div className="md:flex gap-2 md:gap-4 items-center justify-center text-sm">
         <h1 className="text-lg font-bold text-primary/90 text-center flex justify-center">
           <FaMapLocationDot className="mr-3" size={28} /> Filter by Location :
         </h1>
@@ -155,7 +155,9 @@ const LocationFilter = () => {
             </SelectContent>
           </Select>
         </div>
-        <Button onClick={() => handleClear()}>Clear Filters</Button>
+        <div className="flex justify-center">
+          <Button onClick={() => handleClear()}>Clear Filters</Button>
+        </div>
       </div>
     </Container>
   );

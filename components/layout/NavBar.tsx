@@ -22,7 +22,11 @@ const NavBar = () => {
                 className=" flex items-center"
               >
                 <Image
-                  src={theme === "dark" ? "/dark-logo.png" : "/light-logo.png"}
+                  src={
+                    theme === "dark" || theme === "system"
+                      ? "/dark-logo.png"
+                      : "/light-logo.png"
+                  }
                   alt="Banner"
                   width={165}
                   height={60}

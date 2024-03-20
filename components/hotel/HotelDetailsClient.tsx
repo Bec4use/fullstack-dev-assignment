@@ -11,15 +11,20 @@ import {
   FaCartShopping,
   FaPersonSwimming,
   FaSpa,
+  FaWifi,
 } from "react-icons/fa6";
 import {
+  MdDirectionsBike,
   MdLocalBar,
   MdOutlineLocalLaundryService,
   MdOutlineRestaurant,
 } from "react-icons/md";
+import { IoIosPeople } from "react-icons/io";
 import { RiMovie2Fill } from "react-icons/ri";
 import { SiBuymeacoffee } from "react-icons/si";
 import RoomCard from "../room/RoomCard";
+import { GiDiamondRing, GiPartyPopper } from "react-icons/gi";
+import { BiSolidPlaneAlt } from "react-icons/bi";
 
 const HotelDetailsClient = ({
   hotel,
@@ -106,6 +111,18 @@ const HotelDetailsClient = ({
               Free Parking
             </AmenityItem>
           )}
+          {hotel.bikeRental && (
+            <AmenityItem>
+              <MdDirectionsBike size={18} />
+              Bike Rental
+            </AmenityItem>
+          )}
+          {hotel.freeWifi && (
+            <AmenityItem>
+              <FaWifi size={18} />
+              Free Wifi
+            </AmenityItem>
+          )}
           {hotel.movieNights && (
             <AmenityItem>
               <RiMovie2Fill size={18} />
@@ -116,6 +133,30 @@ const HotelDetailsClient = ({
             <AmenityItem>
               <SiBuymeacoffee size={18} />
               Coffee Shop
+            </AmenityItem>
+          )}
+          {hotel.multipurposeRoom && (
+            <AmenityItem>
+              <GiPartyPopper size={18} />
+              Multipurpose Room
+            </AmenityItem>
+          )}
+          {hotel.conferenceRoom && (
+            <AmenityItem>
+              <IoIosPeople size={18} />
+              Conference Room
+            </AmenityItem>
+          )}
+          {hotel.airportShuttle && (
+            <AmenityItem>
+              <BiSolidPlaneAlt size={18} />
+              Airport Shuttle
+            </AmenityItem>
+          )}
+          {hotel.weddingservice && (
+            <AmenityItem>
+              <GiDiamondRing size={18} />
+              Wedding Service
             </AmenityItem>
           )}
         </div>

@@ -16,7 +16,7 @@ import {
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { Checkbox } from "../ui/checkbox";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { UploadButton } from "../uploadthing";
 import { useToast } from "../ui/use-toast";
@@ -54,7 +54,26 @@ import {
 import AddRoomForm from "../room/AddRoomForm";
 import RoomCard from "../room/RoomCard";
 import { Separator } from "../ui/separator";
-
+import { CiDumbbell } from "react-icons/ci";
+import { PiWineFill } from "react-icons/pi";
+import {
+  FaCar,
+  FaCartShopping,
+  FaPersonSwimming,
+  FaSpa,
+  FaWifi,
+} from "react-icons/fa6";
+import {
+  MdOutlineLocalLaundryService,
+  MdOutlineRestaurant,
+  MdDirectionsBike,
+} from "react-icons/md";
+import { IoIosPeople } from "react-icons/io";
+import { GiPartyPopper, GiDiamondRing } from "react-icons/gi";
+import { RiMovie2Fill } from "react-icons/ri";
+import { SiBuymeacoffee } from "react-icons/si";
+import { BiSolidPlaneAlt } from "react-icons/bi";
+import image from "next/image";
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
 }
@@ -93,6 +112,10 @@ const formSchema = z.object({
   movieNights: z.boolean().optional(),
   swimmingPool: z.boolean().optional(),
   coffeeShop: z.boolean().optional(),
+  multipurposeRoom: z.boolean().optional(),
+  conferenceRoom: z.boolean().optional(),
+  airportShuttle: z.boolean().optional(),
+  weddingservice: z.boolean().optional(),
 });
 const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
   const [image, setImage] = useState<string | undefined>(hotel?.image);
@@ -130,6 +153,10 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
       movieNights: false,
       swimmingPool: false,
       coffeeShop: false,
+      multipurposeRoom: false,
+      conferenceRoom: false,
+      airportShuttle: false,
+      weddingservice: false,
     },
   });
 
@@ -146,21 +173,70 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
       | "freeWifi"
       | "movieNights"
       | "swimmingPool"
-      | "coffeeShop";
+      | "coffeeShop"
+      | "multipurposeRoom"
+      | "conferenceRoom"
+      | "airportShuttle"
+      | "weddingservice";
     label: string;
+    icon?: ReactNode;
   }[] = [
-    { name: "gym", label: "Gym" },
-    { name: "spa", label: "Spa" },
-    { name: "bar", label: "Bar" },
-    { name: "laundry", label: "Laundry" },
-    { name: "restaurant", label: "Restaurant" },
-    { name: "shopping", label: "Shopping" },
-    { name: "freeParking", label: "Free Parking" },
-    { name: "bikeRental", label: "Bike Rental" },
-    { name: "freeWifi", label: "Free Wifi" },
-    { name: "movieNights", label: "Movie Nights" },
-    { name: "swimmingPool", label: "Swimming Pool" },
-    { name: "coffeeShop", label: "Coffee Shop" },
+    { name: "gym", label: "Gym", icon: <CiDumbbell size={20} /> },
+    { name: "spa", label: "Spa", icon: <FaSpa size={20} /> },
+    { name: "bar", label: "Bar", icon: <PiWineFill size={20} /> },
+    {
+      name: "laundry",
+      label: "Laundry",
+      icon: <MdOutlineLocalLaundryService size={20} />,
+    },
+    {
+      name: "restaurant",
+      label: "Restaurant",
+      icon: <MdOutlineRestaurant size={20} />,
+    },
+    { name: "shopping", label: "Shopping", icon: <FaCartShopping size={20} /> },
+    { name: "freeParking", label: "Free Parking", icon: <FaCar size={20} /> },
+    {
+      name: "bikeRental",
+      label: "Bike Rental",
+      icon: <MdDirectionsBike size={20} />,
+    },
+    { name: "freeWifi", label: "Free Wifi", icon: <FaWifi size={20} /> },
+    {
+      name: "movieNights",
+      label: "Movie Nights",
+      icon: <RiMovie2Fill size={20} />,
+    },
+    {
+      name: "swimmingPool",
+      label: "Swimming Pool",
+      icon: <FaPersonSwimming size={20} />,
+    },
+    {
+      name: "coffeeShop",
+      label: "Coffee Shop",
+      icon: <SiBuymeacoffee size={20} />,
+    },
+    {
+      name: "multipurposeRoom",
+      label: "Multipurpose Room",
+      icon: <GiPartyPopper size={20} />,
+    },
+    {
+      name: "conferenceRoom",
+      label: "Conference Room",
+      icon: <IoIosPeople size={20} />,
+    },
+    {
+      name: "airportShuttle",
+      label: "Airport Shuttle",
+      icon: <BiSolidPlaneAlt size={20} />,
+    },
+    {
+      name: "weddingservice",
+      label: "Wedding Service",
+      icon: <GiDiamondRing size={20} />,
+    },
   ];
 
   useEffect(() => {
@@ -347,14 +423,19 @@ const AddHotelForm = ({ hotel }: AddHotelFormProps) => {
                       control={form.control}
                       name={fieldData.name}
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-end space-x-3 rounded-md p-4">
+                        <FormItem className="flex flex-row items-center space-x-3 rounded-md p-4 border">
                           <FormControl>
                             <Checkbox
                               checked={!!field.value}
                               onCheckedChange={field.onChange}
                             />
                           </FormControl>
-                          <FormLabel>{fieldData.label}</FormLabel>
+                          <div className="flex items-center flex-row">
+                            <FormLabel className="flex flex-row">
+                              <div className="mr-2 pb-2">{fieldData.icon}</div>
+                              <div className="pt-1">{fieldData.label}</div>
+                            </FormLabel>
+                          </div>
                         </FormItem>
                       )}
                     />

@@ -98,13 +98,17 @@ model Hotel {
   bar                 Boolean   @default(false)
   laundry             Boolean   @default(false)
   restaurant          Boolean   @default(false)
-  shopping           Boolean   @default(false)
+  shopping            Boolean   @default(false)
   freeParking         Boolean   @default(false)
   bikeRental          Boolean   @default(false)
   freeWifi            Boolean   @default(false)
   movieNights         Boolean   @default(false)
   swimmingPool        Boolean   @default(false)
   coffeeShop          Boolean   @default(false)
+  multipurposeRoom    Boolean   @default(false)
+  conferenceRoom      Boolean   @default(false)
+  airportShuttle      Boolean   @default(false)
+  weddingservice      Boolean   @default(false)
   addedAt             DateTime  @default(now())
   updatedAt           DateTime  @default(now())
   rooms               Room[]
@@ -133,6 +137,9 @@ model Room {
   mountainView   Boolean @default(false)
   airConditioned Boolean @default(false)
   soundProofed   Boolean @default(false)
+  bathTub        Boolean @default(false)
+  refrigerator   Boolean @default(false)
+  closet         Boolean @default(false)
   hotelId        String
 
   Hotel Hotel? @relation(fields: [hotelId], references: [id], onDelete: Cascade)

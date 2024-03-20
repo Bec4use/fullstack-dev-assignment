@@ -31,6 +31,8 @@ import {
   Wifi,
   XCircle,
 } from "lucide-react";
+import { FaBath } from "react-icons/fa";
+import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { ReactNode, useEffect, useState } from "react";
 import { Bars } from "react-loader-spinner";
 import { Button } from "../ui/button";
@@ -39,6 +41,7 @@ import axios from "axios";
 import { useToast } from "../ui/use-toast";
 import { UploadButton } from "../uploadthing";
 import { useRouter } from "next/navigation";
+import { BiCloset } from "react-icons/bi";
 
 interface AddRoomFormProps {
   hotel?: Hotel & {
@@ -81,6 +84,9 @@ const formSchema = z.object({
   mountainView: z.boolean().optional(),
   airConditioned: z.boolean().optional(),
   soundProofed: z.boolean().optional(),
+  bathTub: z.boolean().optional(),
+  refrigerator: z.boolean().optional(),
+  closet: z.boolean().optional(),
 });
 
 const AddRoomForm = ({ hotel, room, handleDialogOpen }: AddRoomFormProps) => {
@@ -113,6 +119,9 @@ const AddRoomForm = ({ hotel, room, handleDialogOpen }: AddRoomFormProps) => {
       mountainView: false,
       airConditioned: false,
       soundProofed: false,
+      bathTub: false,
+      refrigerator: false,
+      closet: false,
     },
   });
 
@@ -127,7 +136,10 @@ const AddRoomForm = ({ hotel, room, handleDialogOpen }: AddRoomFormProps) => {
       | "forestView"
       | "mountainView"
       | "airConditioned"
-      | "soundProofed";
+      | "soundProofed"
+      | "bathTub"
+      | "refrigerator"
+      | "closet";
     label: string;
     icon?: ReactNode;
   }[] = [
@@ -141,6 +153,13 @@ const AddRoomForm = ({ hotel, room, handleDialogOpen }: AddRoomFormProps) => {
     { name: "mountainView", label: "Mountain View", icon: <MountainSnow /> },
     { name: "airConditioned", label: "Air Conditioned", icon: <AirVent /> },
     { name: "soundProofed", label: "Sound Proofed", icon: <VolumeX /> },
+    { name: "bathTub", label: "Bath Tub", icon: <FaBath size={18} /> },
+    {
+      name: "refrigerator",
+      label: "Refrigerator",
+      icon: <CgSmartHomeRefrigerator size={20} />,
+    },
+    { name: "closet", label: "Closet", icon: <BiCloset size={18} /> },
   ];
 
   useEffect(() => {

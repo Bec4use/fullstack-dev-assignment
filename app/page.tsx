@@ -43,19 +43,19 @@ export default function Home() {
             />
           </div>
         </h1>
-        <p className="text-white text-lg max-w-[620px] font-semibold leading-relaxed  p-4 rounded-lg shadow-lg backdrop-filter backdrop-blur-md">
+        <p className="text-white text-lg max-w-[620px] font-semibold leading-relaxed  p-4 rounded-lg ">
           <span className="block mb-2 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
             Welcome to our hotel booking platform.
           </span>
-          Effortlessly find and book your next stay from a wide range of hotels.
-          Enjoy detailed room information and secure online payment. Plan your
-          unforgettable stay with us.
+          <span className="text-sm">
+            Effortlessly find and book your next stay from a wide range of
+            hotels. Enjoy detailed room information and secure online payment.
+            Plan your unforgettable stay with us.
+          </span>
         </p>
         <div>
           <LoginButton mode="modal" asChild>
-            <Button variant="outline" size="lg">
-              Sign in
-            </Button>
+            <Button size="lg">Sign in</Button>
           </LoginButton>
         </div>
       </div>

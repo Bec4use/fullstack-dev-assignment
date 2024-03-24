@@ -68,7 +68,11 @@ export const {
         if (token.role === "ADMIN" || token.role === "USER") {
           session.user.role = token.role;
         } else {
+<<<<<<< HEAD
           console.error(`Invalid role: ${token.role}`);
+=======
+          console.error("Invalid role");
+>>>>>>> test-function
         }
       }
 

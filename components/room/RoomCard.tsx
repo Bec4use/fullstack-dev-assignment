@@ -30,6 +30,7 @@ import {
   Wand2,
   Wifi,
 } from "lucide-react";
+
 import AmenityItem from "../AmenityItem";
 import { Separator } from "../ui/separator";
 import { usePathname, useRouter } from "next/navigation";
@@ -50,8 +51,10 @@ import { DatePickerWithRange } from "./DateRangePicker";
 import { DateRange } from "react-day-picker";
 import { differenceInCalendarDays, eachDayOfInterval, set } from "date-fns";
 import { Checkbox } from "../ui/checkbox";
+import { CgSmartHomeRefrigerator } from "react-icons/cg";
 import { currentUser } from "@/lib/auth";
 import useBookRoom from "@/hook/useBookRoom";
+import { BiCloset } from "react-icons/bi";
 
 interface RoomCardProps {
   hotel?: Hotel & {
@@ -324,6 +327,24 @@ const RoomCard = ({ hotel, room, bookings = [] }: RoomCardProps) => {
             <AmenityItem>
               <VolumeX className="h-4 w-4" />
               Sound Proofed
+            </AmenityItem>
+          )}
+          {room.bathTub && (
+            <AmenityItem>
+              <Bath className="h-4 w-4" />
+              BathTub
+            </AmenityItem>
+          )}
+          {room.refrigerator && (
+            <AmenityItem>
+              <CgSmartHomeRefrigerator className="h-4 w-4" />
+              Refrigerator
+            </AmenityItem>
+          )}
+          {room.closet && (
+            <AmenityItem>
+              <BiCloset className="h-4 w-4" />
+              Closet
             </AmenityItem>
           )}
         </div>

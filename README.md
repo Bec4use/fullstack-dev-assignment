@@ -25,5 +25,4 @@ This hotel booking system is perfect for hotel owners looking to digitize their 
 - User authentication: The system includes a secure user authentication feature. Users can create an account, log in, and manage their bookings.
 - Responsive design: The application is designed to be responsive, providing an optimal viewing experience across a wide range of devices, from desktop computers to mobile phones.
 - Image upload: Users can upload images of their hotels, providing potential customers with a visual overview of the property.
-- Search and filter: Users can search for hotels and filter the results based on various criteria, such as location, price, and amenities.
-- Reviews and ratings: The system includes a feature for users to leave reviews and ratings for hotels they've stayed at, providing valuable feedback for both hotel owners and potential customers.
+- Search and filter: Users can search for hotels and filter the results based on various criteria, such as location.

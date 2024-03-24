@@ -102,12 +102,12 @@ const LocationFilter = () => {
   return (
     <Container>
       <div className="md:flex gap-2 md:gap-4 items-center justify-center text-sm">
-        <h1 className="text-lg font-bold text-primary/90 text-center flex justify-center">
+        <h1 className="text-lg font-bold text-primary/90 text-center flex justify-center p-2">
           <FaMapLocationDot className="mr-3" size={28} /> Filter by Location :
         </h1>
         <div>
           <Select onValueChange={(value) => setCountry(value)} value={country}>
-            <SelectTrigger className="bg-background">
+            <SelectTrigger className="bg-background my-2">
               <SelectValue placeholder="Country" />
             </SelectTrigger>
             <SelectContent>
@@ -123,7 +123,7 @@ const LocationFilter = () => {
         </div>
         <div>
           <Select onValueChange={(value) => setState(value)} value={state}>
-            <SelectTrigger className="bg-background">
+            <SelectTrigger className="bg-background my-2">
               <SelectValue placeholder="State" />
             </SelectTrigger>
             <SelectContent>
@@ -140,7 +140,7 @@ const LocationFilter = () => {
         </div>
         <div>
           <Select onValueChange={(value) => setCity(value)} value={city}>
-            <SelectTrigger className="bg-background">
+            <SelectTrigger className="bg-background my-2">
               <SelectValue placeholder="City" />
             </SelectTrigger>
             <SelectContent>
@@ -155,7 +155,7 @@ const LocationFilter = () => {
             </SelectContent>
           </Select>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center p-2">
           <Button onClick={() => handleClear()}>Clear Filters</Button>
         </div>
       </div>

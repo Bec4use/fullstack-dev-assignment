@@ -73,7 +73,7 @@ import { GiPartyPopper, GiDiamondRing } from "react-icons/gi";
 import { RiMovie2Fill } from "react-icons/ri";
 import { SiBuymeacoffee } from "react-icons/si";
 import { BiSolidPlaneAlt } from "react-icons/bi";
-import image from "next/image";
+
 interface AddHotelFormProps {
   hotel: HotelWithRooms | null;
 }
